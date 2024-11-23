@@ -8,7 +8,8 @@ class RacingController {
   async racing() {
     const carNamesObject = await this.getCarNamesObject();
     const tryNumber = await this.getTryNumber();
-    this.startCarRacing(carNamesObject, tryNumber);
+    const carRacingResult = this.startCarRacing(carNamesObject, tryNumber);
+    this.printWinner(carRacingResult);
     return;
   }
 
@@ -85,14 +86,29 @@ class RacingController {
   }
 
   // 전진하는 조건은 무작위 값이 4 이상일 경우이다. 이 조건으로 게임을 시작한다.
+  // 6. 게임 진행 상황을 출력할 때 자동차 이름을 같이 출력한다.
   startCarRacing(carNamesObject, tryNumber) {
+    let racingResult = carNamesObject;
     for (let i = 0; i < tryNumber; i++) {
-      const racingResult = carNamesObject.map((object) => {
+      racingResult = racingResult.map((object) => {
         if (this.getRandomNumber() > 4) object.forward += 1;
         return object;
       });
       this.printGameProgress(racingResult);
     }
+    return racingResult;
+  }
+
+  // 7. 우승자 출력하기
+  printWinner(carRacingResult) {
+    const maxForwardNumber = Math.max(
+      ...carRacingResult.map((object) => object.forward)
+    );
+    const winnerArray = carRacingResult
+      .filter((object) => object.forward === maxForwardNumber)
+      .map((object) => object.name);
+    const winner = winnerArray.join(", ");
+    return MissionUtils.Console.print(`최종우승자 : ${winner}`);
   }
 }
 

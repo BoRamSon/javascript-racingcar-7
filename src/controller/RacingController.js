@@ -7,7 +7,7 @@ class RacingController {
   async racing() {
     const carNames = await this.readCarNames();
     this.validationCarNames(carNames);
-
+    this.readTryNumbers();
     return;
   }
 
@@ -23,10 +23,18 @@ class RacingController {
 
   // 2. 입력받은 자동차 이름값들을 검증한다.
   validationCarNames(validationTarget) {
-    validateCarNames(validationTarget)
+    validateCarNames(validationTarget);
   }
 
-
+  // 3. 시도할 횟수를 입력받는다.
+  async readTryNumbers() {
+    const inputCarNames = await MissionUtils.Console.readLineAsync(
+      "시도할 횟수는 몇 회인가요? \n => "
+    );
+    const removeSpace = inputCarNames.replace(/ /g, "");
+    const numberType = Number(removeSpace);
+    return numberType;
+  }
 }
 
 export default RacingController;

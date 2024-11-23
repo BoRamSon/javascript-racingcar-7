@@ -5,11 +5,12 @@ import makeArrayFromString from "../utils/makeArrayFromString.js";
 import makeObjectFromArray from "../utils/makeObjectFromArray.js";
 
 class RacingController {
-  constructor() {}
 
   async racing() {
     const carNamesObject = await this.getCarNamesObject();
+    console.log(carNamesObject);
     const tryNumber = await this.getTryNumber();
+    this.startCarRacing(carNamesObject, tryNumber);
     return;
   }
 
@@ -64,10 +65,22 @@ class RacingController {
     return MissionUtils.Random.pickNumberInRange(0, 9);
   }
 
-  // 전진하는 조건을 무작위 값이 4 이상일 경우이다.
+  // 전진하는 조건은 무작위 값이 4 이상일 경우이다. 이 조건으로 게임을 시작한다.
+  startCarRacing(carNamesObject, tryNumber) {
+    for(let i = 0; i < tryNumber; i++) {
+      let updateObject = carNamesObject;
+      const racingResult = updateObject.map((object) => {
+        const randomNumber = this.getRandomNumber();
+        if(randomNumber > 4) object.forward += 1;
+        return object;
+      })
+      updateObject = racingResult;
+      MissionUtils.Console.print(updateObject);
+    } 
+  }
 
+  // pobi, jun, boram, sujin, minji
 
-  
 }
 
 export default RacingController;

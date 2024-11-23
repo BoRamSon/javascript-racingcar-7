@@ -1,23 +1,23 @@
 import { MissionUtils } from "@woowacourse/mission-utils";
 import validateCarNames from "../validation/validateCarNames.js";
 import validateTryNumber from "../validation/validateTryNumber.js";
-import makeArrayFromString from "../utils/makeArrayFormString.js";
-
+import makeArrayFromString from "../utils/makeArrayFromString.js";
+import makeObjectFromArray from "../utils/makeObjectFromArray.js";
 
 class RacingController {
   constructor() {}
 
   async racing() {
-    const carNamesArray = await this.getCarNamesArray();
+    const carNamesObject = await this.getCarNamesObject();
     const tryNumber = await this.getTryNumber();
     return;
   }
 
-
-  async getCarNamesArray() {
+  async getCarNamesObject() {
     const carNames = await this.readCarNames();
     const validatedCarNames = this.validationCarNames(carNames);
-    return makeArrayFromString(validatedCarNames);
+    const carNamesArray = makeArrayFromString(validatedCarNames);
+    return makeObjectFromArray(carNamesArray);
   }
 
   async getTryNumber() {
@@ -25,7 +25,6 @@ class RacingController {
     const validtedTryNumber = this.validationTryNumber(tryNumber);
     return Number(validtedTryNumber);
   }
-
 
   //-----------------------------------------------------------------
   // 1. 경주할 자동차 이름을 쉼표(,)기준으로 구분하여 각각 5자 이하로만 입력받는다.
@@ -60,7 +59,7 @@ class RacingController {
   }
 
   // 5. 게임 진행
-  // 0에서 9 사이에서 무작위 값을 구한다. 
+  // 0에서 9 사이에서 무작위 값을 구한다.
   getRandomNumber() {
     return MissionUtils.Random.pickNumberInRange(0, 9);
   }
@@ -68,8 +67,7 @@ class RacingController {
   // 전진하는 조건을 무작위 값이 4 이상일 경우이다.
 
 
-
-
+  
 }
 
 export default RacingController;

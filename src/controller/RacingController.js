@@ -8,16 +8,22 @@ class RacingController {
   constructor() {}
 
   async racing() {
-    const carNames = this.carNamesArray();
-    const tryNumber = await this.readTryNumbers();
-    const validatedTryNumber = this.validationTryNumber(tryNumber);
+    const carNamesArray = this.getCarNamesArray();
+    const tryNumber = this.getTryNumber();
     return;
   }
 
-  async carNamesArray() {
+  
+  async getCarNamesArray() {
     const carNames = await this.readCarNames();
     const validatedCarNames = this.validationCarNames(carNames);
     return makeArrayFromString(validatedCarNames);
+  }
+
+  async getTryNumber() {
+    const tryNumber = await this.readTryNumbers();
+    const validtedTryNumber = this.validationTryNumber(tryNumber);
+    return Number(validtedTryNumber);
   }
 
 

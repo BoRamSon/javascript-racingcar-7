@@ -8,8 +8,8 @@ class RacingController {
   constructor() {}
 
   async racing() {
-    const carNamesArray = this.getCarNamesArray();
-    const tryNumber = this.getTryNumber();
+    const carNamesArray = await this.getCarNamesArray();
+    const tryNumber = await this.getTryNumber();
     return;
   }
 

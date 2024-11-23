@@ -13,7 +13,7 @@ class RacingController {
     return;
   }
 
-  
+
   async getCarNamesArray() {
     const carNames = await this.readCarNames();
     const validatedCarNames = this.validationCarNames(carNames);
@@ -55,8 +55,8 @@ class RacingController {
 
   // 4. 입력받은 시도할 홧수를 검증한다.
   validationTryNumber(validationTarget) {
-    const validatedValue = validateTryNumber(validationTarget);
-    return Number(validationTarget);
+    validateTryNumber(validationTarget);
+    return validationTarget;
   }
 
   // 5. 게임 진행

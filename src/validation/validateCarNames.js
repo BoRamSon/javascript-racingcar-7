@@ -1,6 +1,6 @@
-import validateEmpty from "./functions/validateEmpty";
-import validateFiveLength from "./functions/validateFiveLength";
-import validateRegEx from "./functions/validateRegEx";
+import validateEmpty from "./functions/validateEmpty.js";
+import validateFiveLength from "./functions/validateFiveLength.js";
+import validateRegEx from "./functions/validateRegEx.js";
 
 const validateCarNames = (validateTarget) => { 
   validateEmpty(validateTarget);

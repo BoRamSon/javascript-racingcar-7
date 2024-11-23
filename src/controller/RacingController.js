@@ -5,10 +5,8 @@ import makeArrayFromString from "../utils/makeArrayFromString.js";
 import makeObjectFromArray from "../utils/makeObjectFromArray.js";
 
 class RacingController {
-
   async racing() {
     const carNamesObject = await this.getCarNamesObject();
-    console.log(carNamesObject);
     const tryNumber = await this.getTryNumber();
     this.startCarRacing(carNamesObject, tryNumber);
     return;
@@ -18,12 +16,14 @@ class RacingController {
     const carNames = await this.readCarNames();
     const validatedCarNames = this.validationCarNames(carNames);
     const carNamesArray = makeArrayFromString(validatedCarNames);
+    MissionUtils.Console.print("");
     return makeObjectFromArray(carNamesArray);
   }
 
   async getTryNumber() {
     const tryNumber = await this.readTryNumbers();
     const validtedTryNumber = this.validationTryNumber(tryNumber);
+    MissionUtils.Console.print("");
     return Number(validtedTryNumber);
   }
 
@@ -65,22 +65,35 @@ class RacingController {
     return MissionUtils.Random.pickNumberInRange(0, 9);
   }
 
-  // 전진하는 조건은 무작위 값이 4 이상일 경우이다. 이 조건으로 게임을 시작한다.
-  startCarRacing(carNamesObject, tryNumber) {
-    for(let i = 0; i < tryNumber; i++) {
-      let updateObject = carNamesObject;
-      const racingResult = updateObject.map((object) => {
-        const randomNumber = this.getRandomNumber();
-        if(randomNumber > 4) object.forward += 1;
-        return object;
-      })
-      updateObject = racingResult;
-      MissionUtils.Console.print(updateObject);
-    } 
+  // (forward 숫자를 dashe로 만들어주는 util)
+  changeDashUtil(number) {
+    let dash = "";
+    for (let i = 0; i < number; i++) {
+      dash += "-";
+    }
+    return dash;
   }
 
-  // pobi, jun, boram, sujin, minji
+  // (print게임진행상황)
+  printGameProgress(object) {
+    object.map((array) => {
+      const carName = array.name;
+      const dash = this.changeDashUtil(array.forward);
+      return MissionUtils.Console.print(`${carName} :  ${dash}`);
+    });
+    MissionUtils.Console.print("");
+  }
 
+  // 전진하는 조건은 무작위 값이 4 이상일 경우이다. 이 조건으로 게임을 시작한다.
+  startCarRacing(carNamesObject, tryNumber) {
+    for (let i = 0; i < tryNumber; i++) {
+      const racingResult = carNamesObject.map((object) => {
+        if (this.getRandomNumber() > 4) object.forward += 1;
+        return object;
+      });
+      this.printGameProgress(racingResult);
+    }
+  }
 }
 
 export default RacingController;
